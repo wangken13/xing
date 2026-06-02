@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuecheng.content.mapper.CourseCategoryMapper">
+
+    <select id="selectTreeNodes"
+            resultType="com.xuecheng.content.model.dto.CourseCategoryTreeDto"
+            parameterType="string">
+        with recursive t1 as (
+            -- 递归初始查询：找到指定 id 的分类
+            select * from course_category p where id=#{id}
+
+            union all
+
+            -- 递归查询：找到子分类（parentid 等于父分类的 id）
+            select t.* from course_category t
+                                inner join t1 on t1.id = t.parentid
+        )
+        -- 最终结果：按 id 和 orderby 排序
+        select * from t1 order by t1.id, t1.orderby
+    </select>
+
+</mapper>
