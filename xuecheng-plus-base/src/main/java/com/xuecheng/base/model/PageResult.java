@@ -1,5 +1,6 @@
 package com.xuecheng.base.model;
 
+import lombok.Data;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
@@ -7,6 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 @Slf4j
 @ToString
+@Data
 public class PageResult<T> implements Serializable{
     private List<T> items;
     private long counts;
